@@ -14,7 +14,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="ja">
       <body className={inter.className}>
-        <div className=" min-h-screen">
+        <div className=" min-h-screen overflow-x-hidden">
           <Navbar />
           <div className=" w-hull h-full min-h-screen bg-[#ecf3f8]">
             <div className=" mx-auto max-w-3xl px-4 sm:px-6 xl:max-w-[1120px] xl:px-0">
