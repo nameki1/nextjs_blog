@@ -6,16 +6,21 @@ import dayjs from "dayjs";
 import Link from "next/link";
 import { renderHighlighted } from "@/lib/render-highlighted";
 import markdownToHtml from "zenn-markdown-html";
+import { getPost } from "@/utils/getPost";
+import { getPostContent } from "@/utils/getPostContent";
 
 export default async function BlogArticle(context) {
-  const id = context.params.id;
-  const data = await client.get({
-    endpoint: "blogs",
-    contentId: id,
-  });
+  // 特定の記事情報の取得（引数:slug）
+  const post = await getPost(context.params.id);
+
+  // 特定の記事内容の取得（引数:id）
+  const post_content = await getPostContent(post.id);
+
   // マークダウンをHTMLに変換
-  const renderHtml = markdownToHtml(data.content || "");
-  console.log(renderHtml);
+  const renderHtml = markdownToHtml(post_content.parent || "", {
+    embedOrigin: "https://embed.zenn.studio",
+  });
+
   // 目次の作成
   const toc = renderToc(renderHtml);
 
@@ -24,29 +29,29 @@ export default async function BlogArticle(context) {
       <div className="pt-16 mb-24">
         {/* アイキャッチ */}
         <Image
-          src={data.eyecatch.url}
+          src={post.eyeCatch}
           width={400}
           height={500}
           alt="Picture of the author"
           className="mx-auto"
         />
         {/* 記事タイトル */}
-        <h1 className=" text-3xl mt-16 mb-5 text-center">{data.title}</h1>
+        <h1 className=" text-3xl mt-16 mb-5 text-center">{post.title}</h1>
         {/* 投稿日時 と 修正日時*/}
         <div>
           <dl className="flex justify-center">
             <dt className={styles.srOnly}>Published on</dt>
             <dd>
               投稿日時：
-              <time dateTime={data.publishedAt}>
-                {dayjs(data.publishedAt).format("YYYY/MM/DD")}
+              <time dateTime={post.publishedAt}>
+                {dayjs(post.publishedAt).format("YYYY/MM/DD")}
               </time>
             </dd>
             <dt className={styles.srOnly}>Updated on</dt>
             <dd className=" ml-4">
               更新日時：
-              <time dateTime={data.updatedAt}>
-                {dayjs(data.updatedAt).format("YYYY/MM/DD")}
+              <time dateTime={post.updatedAt}>
+                {dayjs(post.updatedAt).format("YYYY/MM/DD")}
               </time>
             </dd>
           </dl>
@@ -73,17 +78,17 @@ export default async function BlogArticle(context) {
           <article className="znc min-w-[790px] px-10 py-9 bg-white">
             {/* カテゴリ */}
             <div className="flex flex-wrap mb-5">
-              {data.category.map((cate, index) => (
+              {post.tags.map((cate, index) => (
                 <Link
                   key={index}
-                  href={`/category/${cate.id}`}
+                  href={`/category/${cate}`}
                   className="mr-3 text-sm font-medium"
                 >
-                  {cate.name}
+                  {cate}
                 </Link>
               ))}
             </div>
-            <p>{data.category.name}</p>
+            <p>{post.category}</p>
             <div dangerouslySetInnerHTML={{ __html: renderHtml }}></div>
           </article>
         </div>

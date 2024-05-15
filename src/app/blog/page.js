@@ -2,18 +2,19 @@ import { client } from "@/lib/client";
 import Link from "next/link";
 import styles from "../style/common.module.css";
 import dayjs from "dayjs";
+import { getAllPosts } from "@/utils/getAllPosts";
 
 export default async function Home() {
-  // ブログ記事一覧の取得
-  const data = await client.get({
-    endpoint: "blogs",
-  });
-  console.log(data);
-  data.contents.map((value, index) => console.log(value.category));
+  // 記事一覧の取得
+  const AllPostsList = await getAllPosts();
   // カテゴリ一覧の取得
-  const categories = await client.get({
-    endpoint: "categories",
-  });
+  const categories = [
+    ...new Set(
+      AllPostsList.map((cate) => {
+        return cate.category;
+      })
+    ),
+  ];
 
   return (
     <main>
@@ -26,10 +27,10 @@ export default async function Home() {
           <div className=" py-4 px-6">
             <h3 className=" font-bold">カテゴリ</h3>
             <ul>
-              {categories.contents.map((value, index) => (
+              {categories.map((value, index) => (
                 <li key={index} className="my-3">
-                  <Link href={`/category/${value.id}`} className="py-2 px-3 ">
-                    {value.name}
+                  <Link href={`/category/${value}`} className="py-2 px-3 ">
+                    {value}
                   </Link>
                 </li>
               ))}
@@ -40,7 +41,7 @@ export default async function Home() {
         {/* ブログ記事一覧の表示 */}
         <div className="p-5 bg-white min-w-[790px]">
           <ul>
-            {data.contents.map((value, index) => (
+            {AllPostsList.map((value, index) => (
               <li key={index} className=" py-5">
                 <article>
                   {/* 投稿日時 */}
@@ -55,22 +56,29 @@ export default async function Home() {
                   <div>
                     {/* ブログタイトル */}
                     <h2 className=" font-bold text-xl">
-                      <Link href={`/blog/${value.id}`}>{value.title}</Link>
+                      <Link
+                        href={{
+                          pathname: `/blog/${value.slug}`,
+                          query: { id: value.id },
+                        }}
+                      >
+                        {value.title}
+                      </Link>
                     </h2>
-                    {/* カテゴリ */}
+                    {/* タグ */}
                     <div className="flex flex-wrap">
-                      {value.category.map((cate, index) => (
+                      {value.tags.map((cate, index) => (
                         <Link
                           key={index}
-                          href={`/category/${cate.id}`}
+                          href={`/category/${cate}`}
                           className="mr-3 text-sm font-medium"
                         >
-                          {cate.name}
+                          {cate}
                         </Link>
                       ))}
                     </div>
                     {/* 概要 */}
-                    <div className="mt-3 max-w-none">{value.summary}</div>
+                    <div className="mt-3 max-w-none">{value.overview}</div>
                   </div>
                 </article>
               </li>
