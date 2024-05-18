@@ -1,22 +1,22 @@
 .sidebar_show {
   width: 66.666667%;
-  position: absolute;
+  position: fixed;
   top: 0;
   height: 100vh;
   opacity: 0.9;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
-  z-index: 10;
+  z-index: 999;
   right: 0;
-  transition: 0.5s;
+  transition: right 0.5s;
 }
 .sidebar_hidden {
   width: 66.666667%;
-  position: absolute;
+  position: fixed;
   top: 0;
   height: 100vh;
   opacity: 0.9;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
-  z-index: 10;
-  right: -66.666667%;
-  transition: 0.5s;
+  z-index: 999;
+  right: -100%;
+  transition: right 0.5s;
 }

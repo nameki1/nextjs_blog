@@ -3,87 +3,67 @@ import Link from "next/link";
 import styles from "../style/common.module.css";
 import dayjs from "dayjs";
 import { getAllPosts } from "@/utils/getAllPosts";
+import Image from "next/image";
 
 export default async function Home() {
   // 記事一覧の取得
   const AllPostsList = await getAllPosts();
-  // カテゴリ一覧の取得
-  const categories = [
-    ...new Set(
-      AllPostsList.map((cate) => {
-        return cate.category;
-      })
-    ),
-  ];
+  // タグ一覧の取得
+  const tags = [...new Set(AllPostsList.flatMap((post) => post.tags))];
 
   return (
     <main>
-      <div className="pb-6 pt-6">
-        <h2 className="sm:hidden text-3xl font-bold">All Posts</h2>
-      </div>
-      <div className="flex justify-between">
-        {/* カテゴリ一覧の表示 */}
-        <div className=" hidden sm:flex max-h-screen pt-5 min-w-[300px] max-w-[300px]  overflow-auto bg-white">
-          <div className=" py-4 px-6">
-            <h3 className=" font-bold">カテゴリ</h3>
-            <ul>
-              {categories.map((value, index) => (
-                <li key={index} className="my-3">
-                  <Link href={`/category/${value}`} className="py-2 px-3 ">
-                    {value}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-
+      <div className="grid grid-cols-1 py-5 md:grid-cols-3 md:pb-6 md:pt-12">
         {/* ブログ記事一覧の表示 */}
-        <div className="p-5 bg-white min-w-[790px]">
-          <ul>
+        <div className="py-3 bg-white col-span-2">
+          <ul className="grid grid-cols-1 md:grid-cols-2 md:gap-2">
             {AllPostsList.map((value, index) => (
-              <li key={index} className=" py-5">
-                <article>
-                  {/* 投稿日時 */}
-                  <dl>
-                    <dt className={styles.srOnly}>Published on</dt>
-                    <dd>
-                      <time dateTime={value.publishedAt}>
-                        {dayjs(value.publishedAt).format("YYYY/MM/DD")}
-                      </time>
-                    </dd>
-                  </dl>
-                  <div>
-                    {/* ブログタイトル */}
-                    <h2 className=" font-bold text-xl">
-                      <Link
-                        href={{
-                          pathname: `/blog/${value.slug}`,
-                          query: { id: value.id },
-                        }}
-                      >
-                        {value.title}
-                      </Link>
-                    </h2>
-                    {/* タグ */}
-                    <div className="flex flex-wrap">
-                      {value.tags.map((cate, index) => (
-                        <Link
-                          key={index}
-                          href={`/category/${cate}`}
-                          className="mr-3 text-sm font-medium"
-                        >
-                          {cate}
-                        </Link>
-                      ))}
+              <li key={index}>
+                <article className=" shadow-tint hover:shadow-2xl">
+                  {/* 全体をリンク化 */}
+                  <Link
+                    href={{
+                      pathname: `/blog/${value.slug}`,
+                      query: { id: value.id },
+                    }}
+                  >
+                    {/* アイキャッチ */}
+                    <Image
+                      src={value.eyeCatch}
+                      width={200}
+                      height={100}
+                      alt="Picture of the author"
+                      className="mx-auto"
+                    />
+                    <div className=" p-5">
+                      {/* 投稿日時 */}
+                      <p className=" font-tint-400 mb-1 block text-xs">
+                        <time>{value.publishedAt}</time>
+                      </p>
+                      {/* ブログタイトル */}
+                      <h2 className="text-base">{value.title}</h2>
                     </div>
-                    {/* 概要 */}
-                    <div className="mt-3 max-w-none">{value.overview}</div>
-                  </div>
+                  </Link>
                 </article>
               </li>
             ))}
           </ul>
+        </div>
+        {/* タグ一覧の表示 */}
+        <div className=" order-first md:order-last md:max-h-screen md:pt-5 md:ml-5 md:px-5 overflow-auto bg-white col-span-1">
+          <h3 className="  mt-5 mb-10 text-3xl">すべての記事</h3>
+          <div className="order-first items-start flex overflow-x-scroll  md:order-last md:flex-wrap md:overflow-x-hidden">
+            {tags.map((value, index) => (
+              <button
+                key={index}
+                className="my-3 mr-5 py-1 px-3 bg-gray-200 rounded-full"
+              >
+                <Link href={`/category/${value}`} className="py-2 px-3 ">
+                  {value}
+                </Link>
+              </button>
+            ))}
+          </div>
         </div>
       </div>
     </main>
