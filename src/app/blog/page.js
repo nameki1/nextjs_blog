@@ -56,7 +56,7 @@ export default async function Home() {
             {tags.map((value, index) => (
               <button
                 key={index}
-                className="my-3 mr-5 py-1 px-3 bg-gray-200 rounded-full"
+                className="my-3 mr-5 py-1 px-3 bg-[#e6e5e4] rounded-full border-solid border-2 hover:border-[#769cbf]"
               >
                 <Link href={`/category/${value}`} className="py-2 px-3 ">
                   {value}

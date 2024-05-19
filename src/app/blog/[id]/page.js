@@ -55,13 +55,13 @@ export default async function BlogArticle(context) {
       <div className="grid grid-cols-1 md:grid-cols-3">
         {/* 記事 */}
         <div className="bg-white py-10 px-5 md:p-10 md:col-span-2 ">
-          <article className="znc">
+          <article>
             {/* タグ */}
             <div className="flex flex-wrap">
               {post.tags.map((tag, index) => (
                 <button
                   key={index}
-                  className="mr-5 px-3 bg-gray-200 rounded-full"
+                  className="mr-5 py-1 px-3 rounded-full border-solid border-2 border-[#769cbf] hover:bg-[#769cbf] hover:text-white"
                 >
                   <Link
                     href={`/category/${tag}`}
@@ -72,7 +72,10 @@ export default async function BlogArticle(context) {
                 </button>
               ))}
             </div>
-            <div dangerouslySetInnerHTML={{ __html: renderHtml }}></div>
+            <div
+              className="znc"
+              dangerouslySetInnerHTML={{ __html: renderHtml }}
+            ></div>
           </article>
         </div>
         {/* 目次 */}

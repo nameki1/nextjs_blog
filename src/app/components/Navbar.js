@@ -26,10 +26,10 @@ export const Navbar = () => {
             <Link
               key={index}
               href={value.href}
-              className="text-sm uppercase font-semibold relative group overflow-hidden"
+              className="text-sm uppercase font-semibold relative group overflow-hidden py-3"
             >
               {value.title}
-              <span className="w-full h-[1px] bg-blue-700 absolute inline-block left-0 bottom-0 -translate-x-[100%] group-hover:translate-x-0 transition-transform duration-200"></span>
+              <span className="w-full h-[3px] rounded-full bg-[#769CBF] absolute inline-block left-0 bottom-0 -translate-x-[100%] group-hover:translate-x-0 transition-transform duration-200"></span>
             </Link>
           ))}
         </div>

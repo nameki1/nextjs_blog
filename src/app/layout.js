@@ -31,7 +31,7 @@ export default function RootLayout({ children }) {
       <body className={inter.className}>
         <div className=" min-h-screen overflow-clip">
           <Navbar />
-          <div className=" w-hull h-full min-h-screen bg-[#ecf3f8]">
+          <div className=" w-hull h-full min-h-screen bg-[#e6e5e4]">
             <div className="md:mx-5 xl:max-w-[1120px] xl:mx-auto xl:px-0">
               {children}
             </div>
