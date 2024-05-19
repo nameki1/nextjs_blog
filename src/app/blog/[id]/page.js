@@ -1,10 +1,6 @@
-import { client } from "@/lib/client";
 import { renderToc } from "@/lib/render-toc";
 import Image from "next/image";
-import styles from "@/app/style/common.module.css";
-import dayjs from "dayjs";
 import Link from "next/link";
-import { renderHighlighted } from "@/lib/render-highlighted";
 import markdownToHtml from "zenn-markdown-html";
 import { getPost } from "@/utils/getPost";
 import { getPostContent } from "@/utils/getPostContent";

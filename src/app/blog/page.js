@@ -21,7 +21,7 @@ export default async function Home() {
                   <Link
                     href={{
                       pathname: `/blog/${value.slug}`,
-                      query: { id: value.id },
+                      // query: { id: value.id },
                     }}
                   >
                     {/* アイキャッチ */}
