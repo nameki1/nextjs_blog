@@ -1,7 +1,4 @@
-import { client } from "@/lib/client";
 import Link from "next/link";
-import styles from "../style/common.module.css";
-import dayjs from "dayjs";
 import { getAllPosts } from "@/utils/getAllPosts";
 import Image from "next/image";
 

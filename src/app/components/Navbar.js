@@ -18,7 +18,7 @@ export const Navbar = () => {
     { title: "Tag", href: "/category" },
   ];
   return (
-    <header className=" drop-shadow-xl flex  z-50 md:h-24 bg-white">
+    <header className=" drop-shadow-xl flex md:h-24 bg-white relative z-30">
       <div className=" container mx-auto my-6 flex justify-between items-center pl-5 pr-8 lg:pr-16">
         <Logo title="大海も空の青さも知らず" />
         <div className="hidden md:inline-flex items-center gap-7">
@@ -50,7 +50,7 @@ export const Navbar = () => {
             </button>
           </div>
         </IconContext.Provider>
-        <nav className="fixed mt-8 z-50 h-full">
+        <nav className="fixed mt-8 z-auto h-full">
           {navbarList.map((value, index) => (
             <div
               key={index}
