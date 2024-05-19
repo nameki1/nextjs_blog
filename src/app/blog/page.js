@@ -30,7 +30,7 @@ export default async function Home() {
                     {/* アイキャッチ */}
                     <Image
                       src={value.eyeCatch}
-                      width={200}
+                      width={360}
                       height={100}
                       alt="Picture of the author"
                       className="mx-auto"

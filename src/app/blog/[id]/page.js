@@ -31,7 +31,7 @@ export default async function BlogArticle(context) {
         {/* アイキャッチ */}
         <Image
           src={post.eyeCatch}
-          width={200}
+          width={700}
           height={150}
           alt="Picture of the author"
           className="mx-auto"
