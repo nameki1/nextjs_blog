@@ -1,4 +1,9 @@
 import { notion } from "@/lib/notion";
+import { Rethink_Sans } from "next/font/google";
+import { saveImage } from "@/utils/saveImage";
+
+export const staticPath = "public";
+export const imagesPath = "/articleImages/";
 const { NotionToMarkdown } = require("notion-to-md");
 
 const n2m = new NotionToMarkdown({ notionClient: notion });
@@ -27,8 +32,7 @@ ${codeString}
 \`\`\``;
 });
 
-// embed
-// https://zenn.dev/zenn/articles/markdown-guide#%E3%82%B3%E3%83%B3%E3%83%86%E3%83%B3%E3%83%84%E3%81%AE%E5%9F%8B%E3%82%81%E8%BE%BC%E3%81%BF
+// embed(リンクカードの埋め込み)
 n2m.setCustomTransformer("embed", (block) => {
   const { embed } = block;
   if (!embed.url) return "";
@@ -36,6 +40,22 @@ n2m.setCustomTransformer("embed", (block) => {
   return `
 ${embed.url}
 `;
+});
+
+// image(notionの画像が１時間しか表示されない問題の対応)
+n2m.setCustomTransformer("image", (block) => {
+  const articlePath = block.parent.page_id;
+  // 保存先フォルダのパス
+  const destinationPath = staticPath + imagesPath + articlePath;
+  // 保存ファイル名
+  const filename = "/" + block.id + ".png";
+  // 保存したい画像ファイルのリンク
+  const url = block.image.file.url;
+
+  // 画像をローカルに保存する
+  if (saveImage(url, filename, destinationPath)) {
+    block.image.file.url = imagesPath + articlePath + filename;
+  }
 });
 
 export async function getPostContent(pageId) {
