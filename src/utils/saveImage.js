@@ -2,6 +2,13 @@ import fs from "fs";
 
 export async function saveImage(url, fileName, destinationPath) {
   // 保存先フォルダの作成
+  if (!fs.existsSync("public/")) {
+    fs.mkdirSync("public/");
+  }
+  if (!fs.existsSync("public/articleImages/")) {
+    fs.mkdirSync("public/articleImages/");
+  }
+
   if (!fs.existsSync(destinationPath)) {
     fs.mkdirSync(destinationPath);
   }
