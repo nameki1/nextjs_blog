@@ -36,7 +36,6 @@ export async function getAllPosts() {
     if (saveImage(url, filename, destinationPath)) {
       eyeCatch = "/articleImages/" + id + filename;
     }
-    console.log(eyeCatch);
 
     //slugの取り出し
     const slug = post.properties.slug.rich_text[0].plain_text;

@@ -6,6 +6,17 @@ import { getPost } from "@/utils/getPost";
 import { getPostContent } from "@/utils/getPostContent";
 import { RxUpdate } from "react-icons/rx";
 import { SmTOC } from "@/app/components/smTOC";
+import { notion } from "@/lib/notion";
+
+export async function generateStaticParams() {
+  const response = await notion.databases.query({
+    database_id: process.env.DATABASE_ID,
+  });
+  const posts = response.results;
+  return posts.map((post) => ({
+    slug: post.properties.slug.rich_text[0].plain_text,
+  }));
+}
 
 export default async function BlogArticle(context) {
   // 特定の記事情報の取得（引数:slug）

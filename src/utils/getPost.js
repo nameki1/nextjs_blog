@@ -1,4 +1,5 @@
 import { notion } from "@/lib/notion";
+import { saveImage } from "@/utils/saveImage";
 
 export async function getPost(Slug) {
   const response = await notion.databases.query({
@@ -27,8 +28,19 @@ export async function getPost(Slug) {
   const publishedAt = post.properties.publishedAt.date.start;
   //updateAtの取り出し
   const updateAt = post.properties.updateAt.date.start;
+
   //eyeCatchの取り出し
-  const eyeCatch = post.properties.eyeCatch.files[0].file.url;
+  let eyeCatch = "";
+  // 保存先フォルダのパス
+  const destinationPath = "public/articleImages/" + id;
+  // 保存ファイル名
+  const filename = "/eyeCatch.png";
+  // 保存したい画像ファイルのリンク
+  const url = post.properties.eyeCatch.files[0].file.url;
+  if (saveImage(url, filename, destinationPath)) {
+    eyeCatch = "/articleImages/" + id + filename;
+  }
+
   //slugの取り出し
   const slug = post.properties.slug.rich_text[0].plain_text;
 
