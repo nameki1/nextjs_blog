@@ -15,7 +15,8 @@ export const Navbar = () => {
 
   const navbarList = [
     { title: "Blog", href: "/blog" },
-    { title: "Tag", href: "/category" },
+    // { title: "Tag", href: "/category" },
+    { title: "Book", href: "/book" },
   ];
   return (
     <header className=" drop-shadow-xl flex md:h-24 bg-white relative z-30">
