@@ -8,6 +8,9 @@ export async function saveImage(url, fileName, destinationPath) {
   if (!fs.existsSync("public/articleImages/")) {
     fs.mkdirSync("public/articleImages/");
   }
+  if (!fs.existsSync("public/bookImages/")) {
+    fs.mkdirSync("public/bookImages/");
+  }
 
   if (!fs.existsSync(destinationPath)) {
     fs.mkdirSync(destinationPath);
