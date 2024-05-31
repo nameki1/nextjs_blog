@@ -7,10 +7,13 @@ export default async function Book() {
 
   return (
     <main>
-      <div className="grid grid-cols-3 gap-3">
+      <div className="pt-5 grid grid-cols-2 gap-2 md:grid-cols-4 md:gap-3">
         {bookList.map((value, index) => (
-          <li key={index}>
-            <article className=" shadow-tint hover:shadow-2xl">
+          <li
+            key={index}
+            className="list-none p-2 bg-white border-solid border-4 rounded-lg hover:border-[#769cbf]"
+          >
+            <article className=" ">
               {/* 全体をリンク化 */}
               <Link
                 href={{
@@ -21,7 +24,7 @@ export default async function Book() {
                 {/* 表紙画像 */}
                 <Image
                   src={value.cover}
-                  width={200}
+                  width={150}
                   height={300}
                   fixed
                   alt="Picture of the author"

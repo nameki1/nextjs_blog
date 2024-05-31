@@ -16,7 +16,7 @@ export default async function Home() {
           <ul className="grid grid-cols-1 md:grid-cols-2 md:gap-2">
             {AllPostsList.map((value, index) => (
               <li key={index}>
-                <article className=" shadow-tint hover:shadow-2xl">
+                <article className="mx-2 p-2 border-solid border-4 rounded-lg border-white hover:border-[#769cbf]">
                   {/* 全体をリンク化 */}
                   <Link
                     href={{
