@@ -14,36 +14,42 @@ export default async function Home() {
         {/* ブログ記事一覧の表示 */}
         <div className="py-3 bg-white col-span-2">
           <ul className="grid grid-cols-1 md:grid-cols-2 md:gap-2">
-            {AllPostsList.map((value, index) => (
-              <li key={index}>
-                <article className="mx-2 p-2 border-solid border-4 rounded-lg border-white hover:border-[#769cbf]">
-                  {/* 全体をリンク化 */}
-                  <Link
-                    href={{
-                      pathname: `/blog/${value.slug}`,
-                      // query: { id: value.id },
-                    }}
-                  >
-                    {/* アイキャッチ */}
-                    <Image
-                      src={value.eyeCatch}
-                      width={360}
-                      height={100}
-                      alt="Picture of the author"
-                      className="mx-auto"
-                    />
-                    <div className=" p-5">
-                      {/* 投稿日時 */}
-                      <p className=" font-tint-400 mb-1 block text-xs">
-                        <time>{value.publishedAt}</time>
-                      </p>
-                      {/* ブログタイトル */}
-                      <h2 className="text-base">{value.title}</h2>
-                    </div>
-                  </Link>
-                </article>
-              </li>
-            ))}
+            {AllPostsList.map((value, index) =>
+              value.published == true ? (
+                // 公開する
+                <li key={index}>
+                  <article className="mx-2 p-2 border-solid border-4 rounded-lg border-white hover:border-[#769cbf]">
+                    {/* 全体をリンク化 */}
+                    <Link
+                      href={{
+                        pathname: `/blog/${value.slug}`,
+                        // query: { id: value.id },
+                      }}
+                    >
+                      {/* アイキャッチ */}
+                      <Image
+                        src={value.eyeCatch}
+                        width={360}
+                        height={100}
+                        alt="Picture of the author"
+                        className="mx-auto"
+                      />
+                      <div className=" p-5">
+                        {/* 投稿日時 */}
+                        <p className=" font-tint-400 mb-1 block text-xs">
+                          <time>{value.publishedAt}</time>
+                        </p>
+                        {/* ブログタイトル */}
+                        <h2 className="text-base">{value.title}</h2>
+                      </div>
+                    </Link>
+                  </article>
+                </li>
+              ) : (
+                // 公開しない
+                <></>
+              )
+            )}
           </ul>
         </div>
         {/* タグ一覧の表示 */}
