@@ -39,18 +39,23 @@ export async function generateStaticParams() {
 }
 
 export default async function BlogArticle(context) {
+  console.log(context);
   const slug = context.params.id;
+  console.log(slug);
   // 特定の記事情報の取得（引数:slug）
   const post = await getPost(slug);
+  console.log(post);
   // 特定の記事内容の取得（引数:id）
   const postContent = await getPostContent(post.id);
+  console.log(postContent);
   // マークダウンをHTMLに変換
   const renderHtml = markdownToHtml(postContent.parent || "", {
     embedOrigin: "https://embed.zenn.studio",
   });
+  console.log(renderHtml);
   // 目次の作成
   const toc = renderToc(renderHtml);
-
+  console.log(toc);
   return (
     <main id="pageTop">
       {/* スマホ用目次 */}
