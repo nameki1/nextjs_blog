@@ -36,4 +36,5 @@ yarn-error.log*
 next-env.d.ts
 
 # static 
-public
+public/articleImages
+public/bookImages
