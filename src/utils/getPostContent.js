@@ -53,6 +53,7 @@ n2m.setCustomTransformer("image", (block) => {
   // 保存したい画像ファイルのリンク
   const url = block.image.file.url;
   //　ファイルがなければ保存する
+  console.log("ファイル:", fs.existsSync(destinationPath + filename));
   if (!fs.existsSync(destinationPath + filename)) {
     saveImage(url, filename, destinationPath);
   }
