@@ -1,3 +1,4 @@
+import fs from "fs";
 import { notion } from "@/lib/notion";
 import { Rethink_Sans } from "next/font/google";
 import { saveImage } from "@/utils/saveImage";
@@ -51,11 +52,11 @@ n2m.setCustomTransformer("image", (block) => {
   const filename = "/" + block.id + ".png";
   // 保存したい画像ファイルのリンク
   const url = block.image.file.url;
-
-  // 画像をローカルに保存する
-  if (saveImage(url, filename, destinationPath)) {
-    block.image.file.url = imagesPath + articlePath + filename;
+  //　ファイルがなければ保存する
+  if (!fs.existsSync(destinationPath + filename)) {
+    saveImage(url, filename, destinationPath);
   }
+  block.image.file.url = imagesPath + articlePath + filename;
 });
 
 export async function getPostContent(pageId) {
