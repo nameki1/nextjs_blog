@@ -13,18 +13,39 @@ export async function generateStaticParams() {
     database_id: process.env.DATABASE_ID,
   });
   const posts = response.results;
-  return posts.map((post) => ({
-    slug: post.properties.slug.rich_text[0].plain_text,
+
+  // 各記事の詳細を取得
+  const postDetails = await Promise.all(
+    posts.map(async (post) => {
+      try {
+        const slug = post.properties.slug.rich_text[0].plain_text;
+        // 特定の記事情報の取得（引数:slug）
+        const postData = await getPost(slug);
+        // 特定の記事内容の取得（引数:id）
+        const postContent = await getPostContent(post.id);
+        return {
+          slug: post.properties.slug.rich_text[0].plain_text,
+        };
+      } catch (error) {
+        console.error("Error fetching post details:", error);
+        throw error;
+      }
+    })
+  );
+
+  return postDetails.map(({ slug }) => ({
+    params: { slug },
   }));
 }
 
 export default async function BlogArticle(context) {
+  const slug = context.params.id;
   // 特定の記事情報の取得（引数:slug）
-  const post = await getPost(context.params.id);
+  const post = await getPost(slug);
   // 特定の記事内容の取得（引数:id）
-  const post_content = await getPostContent(post.id);
+  const postContent = await getPostContent(post.id);
   // マークダウンをHTMLに変換
-  const renderHtml = markdownToHtml(post_content.parent || "", {
+  const renderHtml = markdownToHtml(postContent.parent || "", {
     embedOrigin: "https://embed.zenn.studio",
   });
   // 目次の作成

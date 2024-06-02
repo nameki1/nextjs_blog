@@ -1,3 +1,4 @@
+import fs from "fs";
 import { notion } from "@/lib/notion";
 import { saveImage } from "@/utils/saveImage";
 
@@ -27,9 +28,11 @@ export async function getBookList() {
     const filename = "/cover.png";
     // 保存したい画像ファイルのリンク
     const url = post.properties.cover.files[0].file.url;
-    if (saveImage(url, filename, destinationPath)) {
-      cover = "/bookImages/" + id + filename;
+    //　ファイルがなければ保存する
+    if (!fs.existsSync(destinationPath + filename)) {
+      saveImage(url, filename, destinationPath);
     }
+    cover = "/bookImages/" + id + filename;
 
     //slugの取り出し
     const slug = post.properties.slug.rich_text[0].plain_text;
