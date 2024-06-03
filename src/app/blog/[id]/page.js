@@ -39,12 +39,12 @@ export async function generateStaticParams() {
 }
 
 export default async function BlogArticle(context) {
-  console.log(context);
+  console.log("context", context);
   const slug = context.params.id;
-  console.log(slug);
+  console.log("slug", slug);
   // 特定の記事情報の取得（引数:slug）
   const post = await getPost(slug);
-  console.log(post);
+  console.log("post", post);
   // 特定の記事内容の取得（引数:id）
   const postContent = await getPostContent(post.id);
   console.log(postContent);

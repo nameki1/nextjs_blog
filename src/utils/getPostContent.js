@@ -55,13 +55,19 @@ n2m.setCustomTransformer("image", (block) => {
   const url = block.image.file.url;
   //　ファイルがなければ保存する
   console.log("ファイル:", fs.existsSync(destinationPath + filename));
-  if (!fs.existsSync(destinationPath + filename)) {
-    saveImage(url, filename, destinationPath);
+  try {
+    if (!fs.existsSync(destinationPath + filename)) {
+      saveImage(url, filename, destinationPath);
+    }
+    block.image.file.url = imagesPath + articlePath + filename;
+  } catch (error) {
+    console.error("Error fetching post details:", error);
+    throw error;
   }
-  block.image.file.url = imagesPath + articlePath + filename;
 });
 
 export async function getPostContent(pageId) {
+  console.log("ここまで");
   const mdblocks = await n2m.pageToMarkdown(pageId, 2);
   console.log("bbb", mdblocks);
   const mdStrings = n2m.toMarkdownString(mdblocks);
