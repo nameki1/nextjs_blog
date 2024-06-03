@@ -2,6 +2,7 @@ import fs from "fs";
 import { notion } from "@/lib/notion";
 import { Rethink_Sans } from "next/font/google";
 import { saveImage } from "@/utils/saveImage";
+import { log } from "console";
 
 export const staticPath = "public";
 export const imagesPath = "/articleImages/";
@@ -62,7 +63,9 @@ n2m.setCustomTransformer("image", (block) => {
 
 export async function getPostContent(pageId) {
   const mdblocks = await n2m.pageToMarkdown(pageId, 2);
+  console.log("bbb", mdblocks);
   const mdStrings = n2m.toMarkdownString(mdblocks);
+  console.log("aaa", mdStrings);
 
   return mdStrings;
 }
